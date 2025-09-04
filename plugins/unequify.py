@@ -68,11 +68,11 @@ async def unequify(client, message):
            await sts.edit(Translation.DUPLICATE_TEXT.format(total, deleted, "ᴄᴀɴᴄᴇʟʟᴇᴅ"), reply_markup=COMPLETED_BTN)
            return await bot.stop()
         file = message.document
-        file_id = unpack_new_file_id(file.file_id) 
-        if file_id in MESSAGES:
-           DUPLICATE.append(message.id)
-        else:
-           MESSAGES.append(file_id)
+file_id = file.file_unique_id   # <- use this instead of unpack_new_file_id
+if file_id in MESSAGES:
+    DUPLICATE.append(message.id)
+else:
+    MESSAGES.append(file_id)
         total += 1
         if total %10000 == 0:
            await sts.edit(Translation.DUPLICATE_TEXT.format(total, deleted, "ᴘʀᴏɢʀᴇssɪɴɢ"), reply_markup=CANCEL_BTN)

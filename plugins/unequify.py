@@ -3,8 +3,7 @@ from database import db
 from config import temp
 from .test import CLIENT , start_clone_bot
 from translation import Translation
-from pyrogram import Client, filters 
-#from pyropatch.utils import unpack_new_file_id
+from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 CLIENT = CLIENT()
@@ -77,13 +76,13 @@ async def unequify(client, message):
 
    try:
       await sts.edit(Translation.DUPLICATE_TEXT.format(total, deleted, "ᴘʀᴏɢʀᴇssɪɴɢ"), reply_markup=CANCEL_BTN)
-      async for message in bot.search_messages(chat_id=chat_id, filter="document"):
+      async for message in bot.search_messages(chat_id=chat_id, filter=filters.document):
          if temp.CANCEL.get(user_id) == True:
             await sts.edit(Translation.DUPLICATE_TEXT.format(total, deleted, "ᴄᴀɴᴄᴇʟʟᴇᴅ"), reply_markup=COMPLETED_BTN)
             return await bot.stop()
 
          file = message.document
-         file_id = file.file_unique_id   # ✅ FIXED
+         file_id = file.file_unique_id   # ✅ SAFE
 
          if file_id in MESSAGES:
             DUPLICATE.append(message.id)
